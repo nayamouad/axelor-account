@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://apps.axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://apps.axelor.com/xml/ns/object-views http://apps.axelor.com/xml/ns/object-views/object-views_0.9.xsd">
+
+    <grid name="accounting-batch-grid" title="Accounting batches" model="com.axelor.apps.account.db.AccountingBatch">
+    	<field name="actionSelect" />
+    	<field name="code" />
+		<field name="company" />
+		<field name="createdOn"/>
+		<field name="createdBy"/>
+    </grid>
+ 
+    <form name="accounting-batch-form" title="Accounting Batch" model="com.axelor.apps.account.db.AccountingBatch" cols="4"
+    onLoad="action-accounting-batch-attrs-action-select,action-accounting-batch-attrs-reimbursement-type-select,action-accounting-batch-attrs-direct-debit-type-select,action-accounting-batch-attrs-direct-debit-export-type-select" 
+    onNew="action-accounting-batch-record-on-new,action-accounting-batch-attrs-action-select">
+    	<field name="actionSelect" onChange="action-accounting-batch-attrs-action-select"/>
+    	<field name="code" />
+    	<field name="company" widget="SuggestBox"/>
+    	<field name="bankDetails" widget="SuggestBox" onSelect="action-accounting-batch-attrs-bank-details-domain"/>
+    	<break/>
+    	<notebook colSpan="4">
+    		<page name="reimbursementPage" title="Reimbursement configuration" cols="4">
+    			<field name="reimbursementTypeSelect" onChange="action-accounting-batch-attrs-reimbursement-type-select"/>
+    			<field name="reimbursementExportTypeSelect"/>
+    			<button name="reimbursementBatch" title="Reimbursement Batch" colSpan="4" onClick="save,action-accounting-batch-method-action-reimbursement" />
+    		</page>
+    		<page name="directDebitPage" title="Direct debit configuration" cols="4">
+    			<field name="directDebitTypeSelect" onChange="action-accounting-batch-attrs-direct-debit-type-select"/>
+    			<group name="directDebitExportGroup">
+	    			<field name="directDebitExportTypeSelect" onChange="action-accounting-batch-attrs-direct-debit-export-type-select"/>
+	    			<field name="debitDate"/>
+	    			<field name="authorityMemoryExportTypeSelect"/>
+    			</group>
+    			<button name="directDebitBatch" title="Direct Debit Batch" colSpan="4" onClick="save,action-accounting-batch-method-action-direct-debit" />
+    		</page>
+    		<page name="reminderPage" title="Reminder configuration" cols="4">
+    			<field name="reminderTypeSelect"/>
+    			<button name="reminderBatch" title="Reminder Batch" colSpan="4" onClick="save,action-accounting-batch-method-action-reminder" />
+    		</page>
+    		<page name="interbankPaymentOrderPage" title="Payments by IPO and IPO Cheque configuration" cols="4">
+    			<field name="interbankPaymentOrderTypeSelect"/>
+    			<button name="interbankPaymentOrderBatch" title="Interbank Payment Order Batch" colSpan="4" onClick="save,action-accounting-batch-method-action-interbank-payment-order" />
+    		</page>
+    		<page name="doubtfulCustormerPage" title="Doubtful customers configuration" cols="4">
+    			<button name="doubtfulCustomerBatch" title="Doubtful Customer Batch" colSpan="4" onClick="save,action-accounting-batch-method-action-doubtful-customer" />
+    		</page>
+    		<page name="accountCustomerPage" title="Configuration Calcul des comptes clients" cols="4">
+    			<group title="Mettre à jour" colSpan="4" cols="6">
+	    			<field name="updateCustAccountOk"/>
+	    			<field name="updateDueCustAccountOk"/>
+	    			<field name="updateDueReminderCustAccountOk"/>
+    			</group>
+    		</page>
+    		<page name="moveLineExportPage" title="Configuration Export des écritures">
+    			<field name="moveLineExportTypeSelect"/>
+    			<field name="startDate"/>
+   				<field name="endDate"/>
+    		</page>
+    		
+    		<page title="Information" cols="4">
+    			<field name="createdOn" title="Created on"/>
+				<field name="createdBy" title="Created by" />
+		    	<field name="description" showTitle="false" colSpan="4" />
+		    	<field name="batchList" colSpan="4" />
+    		</page>
+    	</notebook>   	
+    </form>
+    
+    <!-- ACTION RECORD -->
+    <action-record name="action-accounting-batch-record-on-new" model="com.axelor.apps.account.db.AccountingBatch">
+		<field name="createdOn" expr="call:com.axelor.apps.base.service.administration.GeneralService:getTodayDate()"/>
+		<field name="createdBy" expr="call:com.axelor.apps.base.service.user.UserInfoService:getUserInfo()"/>
+	</action-record>
+    
+    <!-- ACTION METHOD -->
+	<action-method name="action-accounting-batch-method-action-reimbursement">
+		<call class="com.axelor.apps.account.web.AccountingBatchController" method="actionReimbursement"/>
+	</action-method>
+	
+	<action-method name="action-accounting-batch-method-action-direct-debit">
+		<call class="com.axelor.apps.account.web.AccountingBatchController" method="actionDirectDebit"/>
+	</action-method>
+	
+	<action-method name="action-accounting-batch-method-action-reminder">
+		<call class="com.axelor.apps.account.web.AccountingBatchController" method="actionReminder"/>
+	</action-method>
+	
+	<action-method name="action-accounting-batch-method-action-interbank-payment-order">
+		<call class="com.axelor.apps.account.web.AccountingBatchController" method="actionInterbankPaymentOrder"/>
+	</action-method>
+	
+	<action-method name="action-accounting-batch-method-action-doubtful-customer">
+		<call class="com.axelor.apps.account.web.AccountingBatchController" method="actionDoubtfulCustomer"/>
+	</action-method>
+	
+    <!-- ACTION ATTRS -->
+    <action-attrs name="action-accounting-batch-attrs-action-select">
+	    <attribute name="hidden" expr="eval: actionSelect != 11" for="reimbursementPage"/>
+	    <attribute name="hidden" expr="eval: actionSelect != 12" for="directDebitPage"/>
+	    <attribute name="hidden" expr="eval: actionSelect != 14" for="reminderPage"/>
+	    <attribute name="hidden" expr="eval: actionSelect != 15" for="interbankPaymentOrderPage"/>
+   	    <attribute name="hidden" expr="eval: actionSelect != 16" for="doubtfulCustormerPage"/>
+	</action-attrs>
+	
+	<action-attrs name="action-accounting-batch-attrs-reimbursement-type-select">
+	    <attribute name="hidden" expr="eval: reimbursementTypeSelect != 1" for="reimbursementExportTypeSelect"/>
+	</action-attrs>
+	
+	<action-attrs name="action-accounting-batch-attrs-direct-debit-type-select">
+	    <attribute name="hidden" expr="eval: directDebitTypeSelect != 1" for="directDebitExportGroup"/>
+	</action-attrs>
+	
+	<action-attrs name="action-accounting-batch-attrs-direct-debit-export-type-select">
+	    <attribute name="hidden" expr="eval: directDebitExportTypeSelect != 2" for="authorityMemoryExportTypeSelect"/>
+	</action-attrs>
+	
+	<action-attrs name="action-accounting-batch-attrs-bank-details-domain">
+        <attribute name="domain" expr="eval: &quot;self.id IN (${company?.bankDetailsSet?.collect{it.id}.join(',')})&quot;" for="bankDetails"/>
+    </action-attrs>
+	
+</object-views>

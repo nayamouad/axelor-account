@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://apps.axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://apps.axelor.com/xml/ns/object-views http://apps.axelor.com/xml/ns/object-views/object-views_0.9.xsd">
+
+
+
+	<menuitem name="invoice-root" title="Invoice" priority="100"
+		icon="img/icons/invoice.png" groups="admins,erp"/>
+		
+	<menuitem name="invoice-root-cust-invoice" parent="invoice-root"
+		title="New cust. invoice" action="invoice.root.cust.invoice" />
+
+	<action-view name="invoice.root.cust.invoice" title="New cust. invoice"
+		model="com.axelor.apps.account.db.Invoice" icon="img/icons/invoice_small.png">
+		<view type="form" name="invoice-form"/>
+		<view type="grid" name="invoice-grid"/>
+		<domain>self.operationTypeSelect = 3 OR self.operationTypeSelect = 4</domain>
+		<context name="_operationTypeSelect" expr="eval:3"/>
+	</action-view>	
+	
+	<menuitem name="invoice-root-sup-invoice" parent="invoice-root"
+		title="New sup. invoice" action="invoice.root.sup.invoice" />
+
+	<action-view name="invoice.root.sup.invoice" title="New sup. invoice"
+		model="com.axelor.apps.account.db.Invoice" icon="img/icons/invoice_small.png">
+		<view type="form" name="invoice-form"/>
+		<view type="grid" name="invoice-grid"/>
+		<domain>self.operationTypeSelect = 1 OR self.operationTypeSelect = 2</domain>
+		<context name="_operationTypeSelect" expr="eval:1"/>
+	</action-view>	
+
+	<menuitem name="invoice-root-sales" parent="invoice-root"
+		title="Sales" />
+		
+	<menuitem name="invoice-root-sales-custinvoices" parent="invoice-root-sales"
+		title="Cust. Invoices" action="invoice.root.sales.custinvoices" />
+
+	<action-view name="invoice.root.sales.custinvoices" title="Cust. Invoices"
+		model="com.axelor.apps.account.db.Invoice" icon="img/icons/invoice_small.png">
+		<view type="grid" name="invoice-grid"/>
+		<view type="form" name="invoice-form"/>
+		<view-param name="search-filters" value="customer-invoices-filters"/>
+		<domain>self.operationTypeSelect = 3</domain>
+		<context name="_operationTypeSelect" expr="eval:3"/>
+	</action-view>
+
+	<menuitem name="invoice-root-sales-custrefunds" parent="invoice-root-sales"
+		title="Cust. Refunds" action="invoice.root.sales.custrefunds" />
+
+	<action-view name="invoice.root.sales.custrefunds" title="Cust. Refunds"
+		model="com.axelor.apps.account.db.Invoice" icon="img/icons/invoice_small.png">
+		<view type="grid" name="invoice-grid"/>
+		<view type="form" name="invoice-form"/>
+		<view-param name="search-filters" value="customer-refunds-filters"/>
+		<domain>self.operationTypeSelect = 4</domain>
+		<context name="_operationTypeSelect" expr="eval:4"/>
+	</action-view>
+			
+		
+	<menuitem name="invoice-root-purchases" parent="invoice-root"
+		title="Purchases" />	
+		
+	<menuitem name="invoice-root-purchases-supinvoices" parent="invoice-root-purchases"
+		title="Suppl. Invoices" action="invoice.root.purchases.supinvoices" />
+
+	<action-view name="invoice.root.purchases.supinvoices" title="Suppl. Invoices"
+		model="com.axelor.apps.account.db.Invoice" icon="img/icons/invoice_small.png">
+		<view type="grid" name="invoice-grid"/>
+		<view type="form" name="invoice-form"/>
+		<view-param name="search-filters" value="supplier-invoices-filters"/>
+		<domain>self.operationTypeSelect = 1</domain>
+		<context name="_operationTypeSelect" expr="eval:1"/>
+	</action-view>
+
+	<menuitem name="invoice-root-purchases-suprefunds" parent="invoice-root-purchases"
+		title="Suppl. Refunds" action="invoice.root.purchases.suprefunds" />
+
+	<action-view name="invoice.root.purchases.suprefunds" title="Suppl. Refunds"
+		model="com.axelor.apps.account.db.Invoice" icon="img/icons/invoice_small.png">
+		<view type="grid" name="invoice-grid"/>
+		<view type="form" name="invoice-form"/>
+		<view-param name="search-filters" value="supplier-refunds-filters"/>
+		<domain>self.operationTypeSelect = 2</domain>
+		<context name="_operationTypeSelect" expr="eval:2"/>
+	</action-view>	
+		
+		
+	
+	<menuitem name="account-root-payment-schedule" parent="invoice-root"
+        title="Payment Schedule" />
+
+    <menuitem name="account-root-payment-schedule-payment-schedule"
+        parent="account-root-payment-schedule" title="Payment Schedule"
+        action="account.root.payment.schedule.payment.schedule" />
+
+    <action-view name="account.root.payment.schedule.payment.schedule"
+        title="Payment Schedule" model="com.axelor.apps.account.db.PaymentSchedule" icon="img/evo-icons/invoice_small.png">
+        <view type="grid" />
+        <view type="form" />
+        <view-param name="search-filters" value="payment-schedule-filters"/>
+    </action-view>
+
+    <menuitem name="account-root-payment-schedule-payment-schedule-line"
+        parent="account-root-payment-schedule" title="Payment schedule line"
+        action="account.root.payment.schedule.payment.schedule.line" />
+
+    <action-view name="account.root.payment.schedule.payment.schedule.line"
+        title="Payment schedule line" model="com.axelor.apps.account.db.PaymentScheduleLine" icon="img/evo-icons/invoice_small.png">
+        <view type="grid" />
+        <view type="form" />
+        <view-param name="search-filters" value="payment-schedule-line-filters"/>
+    </action-view>
+
+
+	<menuitem name="account-root" title="Accounting" priority="90"
+		icon="img/icons/account.png" groups="admins,erp"/>
+
+
+	<menuitem name="account-root-move" parent="account-root"
+		title="Moves" />
+
+	<menuitem name="account-root-move-move" parent="account-root-move"
+		title="Moves" action="account.root.move.move" />
+
+	<action-view name="account.root.move.move" title="Moves"
+		model="com.axelor.apps.account.db.Move" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<view-param name="search-filters" value="move-filters"/>
+	</action-view>
+
+	<menuitem name="account-root-move-move-line" parent="account-root-move"
+		title="Move Lines" action="account.root.move.move.line" />
+
+	<action-view name="account.root.move.move.line" title="Move Lines"
+		model="com.axelor.apps.account.db.MoveLine" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<view-param name="search-filters" value="move-line-filters"/>
+	</action-view>
+	
+	
+	<menuitem name="account-root-payments" parent="account-root"
+		title="Payments" />
+
+	<menuitem name="account-root-payments-payment-voucher"
+		parent="account-root-payments" title="Payment vouchers"
+		action="account.root.payments.payment.voucher" icon="img/icons/payment.png"/>
+
+	<action-view name="account.root.payments.payment.voucher"
+		title="Payment vouchers" model="com.axelor.apps.account.db.PaymentVoucher" icon="img/icons/payment_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<view-param name="search-filters" value="payment-voucher-filters"/>
+	</action-view>
+	
+
+	<menuitem name="account-root-periodic-processing" parent="account-root"
+		title="Periodical processing" />
+
+	<menuitem name="account-root-periodic-processing-reconcile"
+		parent="account-root-periodic-processing" title="Reconcilations"
+		action="account.root.periodic.processing.reconcile" />
+
+	<action-view name="account.root.periodic.processing.reconcile"
+		title="Reconcilations" model="com.axelor.apps.account.db.Reconcile" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<view-param name="search-filters" value="reconcile-filters"/>
+	</action-view>
+
+	<menuitem name="account-root-periodic-processing-cash-register-closure"
+		parent="account-root-periodic-processing" title="Cash register closure"
+		action="account.root.periodic.processing.cash.register.closure" />
+
+	<action-view name="account.root.periodic.processing.cash.register.closure"
+		title="Cash register closure" model="com.axelor.apps.account.db.CashRegisterLine" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="account-root-periodic-processing-overpayment-clearances"
+		parent="account-root-periodic-processing" title="Overpayments clearances"
+		action="account.root.periodic.processing.overpayment.clearances" />
+
+	<action-view name="account.root.periodic.processing.overpayment.clearances"
+		title="Overpayments clearances" model="com.axelor.apps.account.db.AccountClearance" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="account-root-periodic-processing-shift-irrecoverable"
+		parent="account-root-periodic-processing" title="Shift to irrecoverable"
+		action="account.root.periodic.processing.shift.irrecoverable" />
+
+	<action-view name="account.root.periodic.processing.shift.irrecoverable"
+		title="Shift to irrecoverable" model="com.axelor.apps.account.db.Irrecoverable" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="account-root-periodic-processing-cheque-reject"
+		parent="account-root-periodic-processing" title="Rejects of cheques"
+		action="account.root.periodic.processing.cheque.reject" />
+
+	<action-view name="account.root.periodic.processing.cheque.reject"
+		title="Rejects of cheques" model="com.axelor.apps.account.db.ChequeRejection" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<view-param name="search-filters" value="cheque-rejection-filters"/>
+		<context name="_newDate1" expr="eval: __date__.minusDays(5)"/>
+		<context name="_newDate2" expr="eval: __date__.minusDays(30)"/>
+	</action-view>
+
+	<menuitem name="account-root-debt-recovery" parent="account-root"
+		title="Debt recovery" icon="img/icons/reminder.png" />
+
+	<menuitem name="debt-recovery-root-reminders"
+		parent="account-root-debt-recovery" title="Reminders history"
+		action="debt.recovery.root.reminders" />
+
+	<action-view name="debt.recovery.root.reminders"
+		title="Reminders history" model="com.axelor.apps.account.db.ReminderHistory" icon="img/icons/reminder_small.png">
+		<view type="grid" name="reminder-history-line-grid" />
+		<view type="form" name="reminder-history-form" />
+	</action-view>
+
+	<menuitem name="debt-recovery-root-conf" parent="account-root-debt-recovery"
+		title="Configuration" icon="img/icons/parameter.png" />
+
+	<menuitem name="debt-recovery-root-conf-reminder-method"
+		parent="debt-recovery-root-conf" title="Reminder methods"
+		action="debt.recovery.root.conf.reminder.method" />
+
+	<action-view name="debt.recovery.root.conf.reminder.method"
+		title="Reminder methods" model="com.axelor.apps.account.db.ReminderMethod" icon="img/icons/reminder_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="debt-recovery-root-conf-reminder-level"
+		parent="debt-recovery-root-conf" title="Reminder levels"
+		action="debt.recovery.root.conf.reminder.level" />
+
+	<action-view name="debt.recovery.root.conf.reminder.level"
+		title="Reminder levels" model="com.axelor.apps.account.db.ReminderLevel" icon="img/icons/reminder_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="debt-recovery-root-conf-mail-model"
+		parent="debt-recovery-root-conf" title="Reminder mail models"
+		action="debt.recovery.root.conf.mail.model" />
+
+	<action-view name="debt.recovery.root.conf.mail.model"
+		title="Reminder mail models" model="com.axelor.apps.base.db.MailModel" icon="img/icons/reminder_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<view-param name="search-filters" value="mail-model-filters"/>
+	</action-view>
+
+	
+	<menuitem name="account-root-accounting" parent="account-root"
+		title="Accounting Exports/Reports" icon="img/icons/report.png" />
+
+	<menuitem name="account-root-accounting-reimbursement" parent="account-root-accounting"
+		title="Reimbursements" action="account.root.accounting.reimbursement" />
+
+	<action-view name="account.root.accounting.reimbursement"
+		title="Reimbursements" model="com.axelor.apps.account.db.Reimbursement" icon="img/icons/report_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<view-param name="search-filters" value="reimbursement-filters"/>
+	</action-view>
+
+	<menuitem name="account-root-accounting-accounting-reports" parent="account-root-accounting"
+		title="Accounting reports" action="account.root.accounting.accounting.reports" />
+
+	<action-view name="account.root.accounting.accounting.reports"
+		title="Accounting reports" model="com.axelor.apps.account.db.MoveLineReport" icon="img/icons/report_small.png">
+		<view type="grid" name="move-line-report-grid" />
+		<view type="form" name="move-line-report-form" />
+		<domain>self.typeSelect in (1,2,3,4,5,10,11,12,13,14,15,16,17,18,19)</domain>
+	</action-view>
+
+	<menuitem name="account-root-accounting-accounting-exports" parent="account-root-accounting"
+		title="Accounting exports" action="account.root.accounting.accounting.exports" />
+
+	<action-view name="account.root.accounting.accounting.exports"
+		title="Accounting exports" model="com.axelor.apps.account.db.MoveLineReport" icon="img/icons/report_small.png">
+		<view type="grid" name="move-line-report-export-grid" />
+		<view type="form" name="move-line-report-export-form" />
+		<domain>self.typeSelect in (6,7,8,9)</domain>
+	</action-view>
+	
+	<menuitem name="account-conf" parent="account-root" title="Configuration"
+		icon="img/icons/parameter.png" />
+
+	<menuitem name="account-conf-accounting-batch" parent="account-conf"
+		title="Accounting batches" action="account.conf.accounting.batch" />
+
+	<action-view name="account.conf.accounting.batch" title="Accounting batches"
+		model="com.axelor.apps.account.db.AccountingBatch" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+	
+	<menuitem name="account-conf-cash-register" parent="account-conf"
+		title="Cash registers" action="account.conf.cash.register" />
+		
+	<action-view name="account.conf.cash.register" title="Cash registers"
+		model="com.axelor.apps.account.db.CashRegister" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+	
+	<menuitem name="account-conf-financial" parent="account-conf"
+		title="Financial" />
+
+	<menuitem name="account-conf-financial-year" parent="account-conf-financial"
+		title="Fiscal years" action="account.conf.financial.year" />
+
+	<action-view name="account.conf.financial.year" title="Fiscal years"
+		model="com.axelor.apps.base.db.Year" icon="img/icons/parameter_small.png">
+		<view type="grid" name="year-acount-grid"/>
+		<view type="form" name="year-account-form"/>
+	</action-view>
+
+	<menuitem name="account-conf-financial-period" parent="account-conf-financial"
+		title="Periods" action="account.conf.financial.period" />
+
+	<action-view name="account.conf.financial.period" title="Periods"
+		model="com.axelor.apps.base.db.Period" icon="img/icons/parameter_small.png">
+		<view type="grid" name="period-account-grid"/>
+		<view type="form" name="period-account-form"/>
+	</action-view>
+
+	<menuitem name="account-conf-financial-journal" parent="account-conf-financial"
+		title="Journals" action="account.conf.financial.journal" />
+
+	<action-view name="account.conf.financial.journal" title="Journals"
+		model="com.axelor.apps.account.db.Journal" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="account-conf-financial-journal-type" parent="account-conf-financial"
+		title="Journal types" action="account.conf.financial.journal.type" />
+
+	<action-view name="account.conf.financial.journal.type"
+		title="Journal types" model="com.axelor.apps.account.db.JournalType" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="account-conf-financial-account" parent="account-conf-financial"
+		title="Financial Accounts" action="account.conf.financial.account" />
+
+	<action-view name="account.conf.financial.account" title="Financial Accounts"
+		model="com.axelor.apps.account.db.Account" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="account-conf-financial-accounting-plan"
+		parent="account-conf-financial" title="Chart of Accounts"
+		action="account.conf.financial.accounting.plan" />
+
+	<action-view name="account.conf.financial.accounting.plan"
+		title="Chart of Accounts" model="com.axelor.apps.account.db.Account" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+<!-- 		<view type="tree"/> -->
+	</action-view>
+
+	<menuitem name="account-conf-financial-account-management"
+		parent="account-conf-financial" title="Financial Accounts Management"
+		action="account.conf.financial.account.management" />
+
+	<action-view name="account.conf.financial.account.management"
+		title="Financial Accounts Management" model="com.axelor.apps.account.db.AccountManagement" icon="img/icons/parameter_small.png">
+		<view type="grid" name="account-management-grid" />
+		<view type="form" name="account-management-form" />
+	</action-view>
+
+	<menuitem name="account-conf-financial-account-type" parent="account-conf-financial"
+		title="Account types" action="account.conf.financial.account.type" />
+
+	<action-view name="account.conf.financial.account.type"
+		title="Account types" model="com.axelor.apps.account.db.AccountType" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+	
+	<menuitem name="account-conf-financial-vat" parent="account-conf-financial"
+		title="Les TVA" action="account.conf.financial.vat" />
+
+	<action-view name="account.conf.financial.vat" title="Les TVA"
+		model="com.axelor.apps.account.db.Vat" icon="img/icons/account_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+	
+	<menuitem name="account-conf-analytic" parent="account-conf"
+		title="Analytic" />
+
+	<menuitem name="account-conf-analytic-journal" parent="account-conf-analytic"
+		title="Analytic journals" action="account.conf.analytic.journal" />
+
+	<action-view name="account.conf.analytic.journal" title="Analytic journals"
+		model="com.axelor.apps.account.db.AnalyticJournal" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="account-conf-analytic-account" parent="account-conf-analytic"
+		title="Analytic accounts" action="account.conf.analytic.account" />
+
+	<action-view name="account.conf.analytic.account" title="Analytic accounts"
+		model="com.axelor.apps.account.db.AnalyticAccount" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="account-conf-analytic-axis" parent="account-conf-analytic"
+		title="Analytic axis" action="account.conf.analytic.axis" />
+
+	<action-view name="account.conf.analytic.axis" title="Analytic axis"
+		model="com.axelor.apps.account.db.AnalyticAxis" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+
+	<menuitem name="account-conf-payment" parent="account-conf"
+		title="Payment" />
+
+	<menuitem name="account-conf-payment-payment-mode" parent="account-conf-payment"
+		title="Payment modes" action="account.conf.payment.payment.mode" />
+
+	<action-view name="account.conf.payment.payment.mode"
+		title="Payment modes" model="com.axelor.apps.account.db.PaymentMode" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+	
+	<menuitem name="account-conf-payment-paybox" parent="account-conf-payment" 
+		title="Paybox" action="account.conf.payment.paybox" />
+
+	<action-view name="account.conf.payment.paybox"
+		title="Paybox" model="com.axelor.apps.account.db.Paybox" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+	
+	<menuitem name="account-conf-reporting" parent="account-conf"
+		title="Reportings/Exports" />
+
+	<menuitem name="account-conf-reporting-interbank-code" parent="account-conf-reporting"
+		title="Reject/Return reason codes" action="account.conf.reporting.interbank.code" />
+
+	<action-view name="account.conf.reporting.interbank.code"
+		title="Reject/Return reason codes" model="com.axelor.apps.account.db.InterbankCode" icon="img/icons/parameter_small.png">
+		<view type="grid" />
+		<view type="form" />
+	</action-view>
+	
+	
+	
+	
+	<menuitem name="mail-root-email-debtrecovery" title="Reminder emails"
+		parent="mail-root-email" action="mail.root.email.debtrecovery" />
+
+	<action-view name="mail.root.email.debtrecovery" title="Reminder emails"
+		model="com.axelor.apps.base.db.Mail" icon="img/icons/mail_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<domain>self.typeSelect = 0 AND self.objectConcernedSelect = 1</domain>
+		<context name="typeSelect" expr="0" />
+		<context name="objectConcernedSelect" expr="1" />
+	</action-view>
+
+	<menuitem name="mail-root-email-reimboursement" title="Reimbursement emails"
+		parent="mail-root-email" action="mail.root.email.reimboursement" />
+
+	<action-view name="mail.root.email.reimboursement" title="Reimbursement emails"
+		model="com.axelor.apps.base.db.Mail" icon="img/icons/mail_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<domain>self.typeSelect = 0 AND self.objectConcernedSelect = 2</domain>
+		<context name="typeSelect" expr="0" />
+		<context name="objectConcernedSelect" expr="2" />
+	</action-view>
+
+	<menuitem name="mail-root-email-reject-import" title="Reject emails"
+		parent="mail-root-email" action="mail.root.email.reject.import" />
+
+	<action-view name="mail.root.email.reject.import" title="Reject emails"
+		model="com.axelor.apps.base.db.Mail" icon="img/icons/mail_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<domain>self.typeSelect = 0 AND self.objectConcernedSelect = 3</domain>
+		<context name="typeSelect" expr="0" />
+		<context name="objectConcernedSelect" expr="3" />
+	</action-view>
+
+	<menuitem name="mail-root-email-cash-register" title="Cash register emails"
+		parent="mail-root-email" action="mail.root.email.cash.register" />
+
+	<action-view name="mail.root.email.cash.register" title="Cash register emails"
+		model="com.axelor.apps.base.db.Mail" icon="img/icons/mail_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<domain>self.typeSelect = 0 AND self.objectConcernedSelect = 4</domain>
+		<context name="typeSelect" expr="0" />
+		<context name="objectConcernedSelect" expr="4" />
+	</action-view>
+	
+	<menuitem name="mail-root-mail-debtrecovery" title="Reminder mails"
+		parent="mail-root-mail" action="mail.root.mail.debtrecovery" />
+
+	<action-view name="mail.root.mail.debtrecovery" title="Reminder mails"
+		model="com.axelor.apps.base.db.Mail" icon="img/icons/mail_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<domain>self.typeSelect = 1 AND self.objectConcernedSelect = 1</domain>
+		<context name="typeSelect" expr="1" />
+		<context name="objectConcernedSelect" expr="1" />
+	</action-view>
+
+	<menuitem name="mail-root-mail-reimboursement" title="Reimbursement mails"
+		parent="mail-root-mail" action="mail.root.mail.reimboursement" />
+
+	<action-view name="mail.root.mail.reimboursement" title="Reimbursement mails"
+		model="com.axelor.apps.base.db.Mail" icon="img/icons/mail_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<domain>self.typeSelect = 1 AND self.objectConcernedSelect = 2</domain>
+		<context name="typeSelect" expr="1" />
+		<context name="objectConcernedSelect" expr="2" />
+	</action-view>
+
+	<menuitem name="mail-root-mail-reject-import" title="Bank Rejects mails"
+		parent="mail-root-mail" action="mail.root.mail.reject.import" />
+
+	<action-view name="mail.root.mail.reject.import" title="Bank Rejects mails"
+		model="com.axelor.apps.base.db.Mail" icon="img/icons/mail_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<domain>self.typeSelect = 1 AND self.objectConcernedSelect = 3</domain>
+		<context name="typeSelect" expr="1" />
+		<context name="objectConcernedSelect" expr="3" />
+	</action-view>
+
+	<menuitem name="mail-root-mail-cash-register" title="Cash register mails"
+		parent="mail-root-mail" action="mail.root.mail.cash.register" />
+
+	<action-view name="mail.root.mail.cash.register" title="Cash register mails"
+		model="com.axelor.apps.base.db.Mail" icon="img/icons/mail_small.png">
+		<view type="grid" />
+		<view type="form" />
+		<domain>self.typeSelect = 1 AND self.objectConcernedSelect = 4</domain>
+		<context name="typeSelect" expr="1" />
+		<context name="objectConcernedSelect" expr="4" />
+	</action-view>
+
+</object-views>
